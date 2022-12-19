@@ -5,7 +5,7 @@
 
 #include "individu.h"
 
-individu afficher_individu(individu l)
+void afficher_individu(individu l)
 {
     if (l == NULL)
     {
@@ -20,6 +20,19 @@ individu afficher_individu(individu l)
             l = l->suivant;
         }
         printf("\n");
+    }
+}
+
+int obtenir_longIndiv(individu l){
+    if(l==NULL){
+        return 0;
+    }else{
+        int longueur=0;
+        while(l!=NULL){
+            longueur++;
+            l=l->suivant;
+        }
+        return longueur;
     }
 }
 
@@ -52,7 +65,7 @@ float obtenir_valeur(individu l)
 {
     int valeur = 0;
     individu p = l;
-    for (int i = longIndiv; i > 0; i--)
+    for (int i = obtenir_longIndiv(l); i > 0; i--)
     {
         valeur = valeur + ((p->bit) - 48) * pow(2, i - 1);
         p = p->suivant;
@@ -66,17 +79,17 @@ float obtenir_qualite(individu l)
     int B = 1;
     float X, qualite;
     float x = obtenir_valeur(l);
-    X = (x / pow(2, longIndiv)) * (B - A) + A;
+    X = (x / pow(2, obtenir_longIndiv(l))) * (B - A) + A;
     qualite = -pow(X, 2);
     return qualite;
 }
 
-individu initialiser_individu(individu i, int longIndiv)
+individu initialiser_individu(individu i, int longueur)
 {
     // n = (7 ^ 5 * n) % (2 ^ 31 - 1);
     // srand(n);
     int temp = 0;
-    for (int j = 0; j < longIndiv; j++)
+    for (int j = 0; j < longueur; j++)
     {
         temp = rand() % 2 + 48;
         // printf("La valeur est : %d\n",temp);

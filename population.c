@@ -25,7 +25,7 @@ population inser_individu(population p, individu i)
     }
 }
 
-population initialiser_population(population p)
+population initialiser_population(population p, int longPop, int longIndiv)
 {
 
     for (int j = 0; j < longPop; j++)
@@ -37,7 +37,7 @@ population initialiser_population(population p)
     return p;
 }
 
-population afficher_population(population p)
+void afficher_population(population p)
 {
     if (p == NULL)
     {
@@ -52,6 +52,19 @@ population afficher_population(population p)
             printf("qualite : %2.2f\n", obtenir_qualite(p->individu));
             p = p->suivant;
         }
+    }
+}
+
+int obtenir_longPop(population p){
+    if(p==NULL){
+        return 0;
+    }else{
+        int longueur=0;
+        while(p!=NULL){
+            longueur++;
+            p=p->suivant;
+        }
+        return longueur;
     }
 }
 
@@ -151,10 +164,6 @@ population trier_qualite(population p)
             return s1;
         }
     }
-    else if ((p->suivant->suivant->suivant == NULL) && (obtenir_qualite(p->individu) == obtenir_qualite(p->suivant->individu)) && (obtenir_qualite(p->suivant->individu) == obtenir_qualite(p->suivant->suivant->individu)))
-    {
-        return p;
-    }
     else
     {
         // CHOIX DU PIVOT
@@ -180,13 +189,24 @@ population trier_qualite(population p)
         //  Remplir les listes s1 et s2 en fonction de la valeur du pivot
         while (pt != NULL)
         {
-            if (obtenir_qualite(pt->individu) >= pivot)
+            if (obtenir_qualite(pt->individu) > pivot)
             {
                 s1 = inser_individu(s1, pt->individu);
             }
-            else
+            else if(obtenir_qualite(pt->individu) < pivot)
             {
                 s2 = inser_individu(s2, pt->individu);
+            }else{
+                int alea = rand()%2;
+                printf("alea : %d\n", alea);
+                if (alea == 0)
+                {
+                    s1 = inser_individu(s1, pt->individu);
+                }
+                else
+                {
+                    s2 = inser_individu(s2, pt->individu);
+                }
             }
             pt = pt->suivant;
         }
@@ -236,9 +256,10 @@ population croiser_individus(individu i1, individu i2, float pcroiser)
     individu i3 = NULL;
     individu i4 = NULL;
     int tirage = rand() % 10;
+    int longueur = obtenir_longIndiv(i1);
 
     // Distribue les bits aux individu aléatoirement en fonction de la probabilité pcroiser
-    for (int i = 0; i < longIndiv; i++)
+    for (int i = 0; i < longueur; i++)
     {
         tirage = rand() % 10;
         if (tirage < pcroiser * 10)
@@ -254,14 +275,13 @@ population croiser_individus(individu i1, individu i2, float pcroiser)
         i1 = i1->suivant;
         i2 = i2->suivant;
     }
-
     // Insère les individus croisés dans la population pour les retourner
     p = inser_individu(p, i3);
     p = inser_individu(p, i4);
     return p;
 }
 
-population croiser_population(population p1)
+population croiser_population(population p1, float pcroiser)
 {
     // Populations temporaires pour tirages aléatoires
     population pt1 = p1;
@@ -270,15 +290,15 @@ population croiser_population(population p1)
     population pc = NULL;
     // Population croiser renvoyé par la fonction
     population p2 = NULL;
-
+    int longueur=obtenir_longPop(p1);
     // Prendre aléatoirement deux individus dans la population
-    int temp1 = rand() % longPop;
-    int temp2 = rand() % longPop;
+    int temp1 = rand() % longueur;
+    int temp2 = rand() % longueur;
 
-    for (int j = 0; j < longPop / 2; j++)
+    for (int j = 0; j < longueur / 2; j++)
     {
-        temp1 = rand() % longPop;
-        temp2 = rand() % longPop;
+        temp1 = rand() % longueur;
+        temp2 = rand() % longueur;
         for (int i = 0; i < temp1; i++)
         {
             pt1 = pt1->suivant;
@@ -288,7 +308,7 @@ population croiser_population(population p1)
         {
             pt2 = pt2->suivant;
         }
-        pc = croiser_individus(pt1->individu, pt2->individu, 0.5);
+        pc = croiser_individus(pt1->individu, pt2->individu, pcroiser);
 
         p2 = inser_individu(p2, pc->individu);
         pc = pc->suivant;

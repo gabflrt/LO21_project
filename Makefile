@@ -6,10 +6,10 @@ CC=gcc
 all: $(TARGET)
 
 $(TARGET): main.c individu.o population.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lm
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -lm -o $@ $< 
 
 clean:
 	rm -f $(TARGET) *.o
