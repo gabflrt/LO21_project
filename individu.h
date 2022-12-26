@@ -14,7 +14,7 @@ typedef Individu *individu;
 void afficher_individu(individu l);
 int obtenir_longIndiv(individu l);
 individu inser_bit(individu l, int v);
-float obtenir_valeur(individu l);
+int obtenir_valeur(individu l);
 float obtenir_qualite(individu l);
 individu initialiser_individu(individu i, int longueur);
 

@@ -23,14 +23,19 @@ void afficher_individu(individu l)
     }
 }
 
-int obtenir_longIndiv(individu l){
-    if(l==NULL){
+int obtenir_longIndiv(individu l)
+{
+    if (l == NULL)
+    {
         return 0;
-    }else{
-        int longueur=0;
-        while(l!=NULL){
+    }
+    else
+    {
+        int longueur = 0;
+        while (l != NULL)
+        {
             longueur++;
-            l=l->suivant;
+            l = l->suivant;
         }
         return longueur;
     }
@@ -61,7 +66,7 @@ individu inser_bit(individu l, int v)
     }
 }
 
-float obtenir_valeur(individu l)
+int obtenir_valeur(individu l)
 {
     int valeur = 0;
     individu p = l;
@@ -78,7 +83,7 @@ float obtenir_qualite(individu l)
     int A = -1;
     int B = 1;
     float X, qualite;
-    float x = obtenir_valeur(l);
+    int x = obtenir_valeur(l);
     X = (x / pow(2, obtenir_longIndiv(l))) * (B - A) + A;
     qualite = -pow(X, 2);
     return qualite;

@@ -14,6 +14,8 @@ int main()
     int tselect = 4;
     int nGen = 20;
     float pcroiser = 0.5;
+    int n = (unsigned)time(NULL);
+    srand(n);
 
     // Initialiser la Population
     printf("\n\n------------ Initialisation de la population -----------\n");
@@ -23,11 +25,14 @@ int main()
     afficher_population(population1);
 
     // Répéter nGen fois
-    for(int i=0; i < nGen; i++){
+    for (int i = 0; i < nGen; i++)
+    {
         // Croiser la population
         printf("\n\n------------ Croiser la population -----------\n");
         population1 = croiser_population(population1, pcroiser);
         afficher_population(population1);
+
+        printf("\n\ntentative : %d", i);
 
         // Trier la population avec QuickSort
         printf("\n\n------------ Tri de la population -----------\n");

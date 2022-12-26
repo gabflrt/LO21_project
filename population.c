@@ -55,32 +55,22 @@ void afficher_population(population p)
     }
 }
 
-int obtenir_longPop(population p){
-    if(p==NULL){
+int obtenir_longPop(population p)
+{
+    if (p == NULL)
+    {
         return 0;
-    }else{
-        int longueur=0;
-        while(p!=NULL){
+    }
+    else
+    {
+        int longueur = 0;
+        while (p != NULL)
+        {
             longueur++;
-            p=p->suivant;
+            p = p->suivant;
         }
         return longueur;
     }
-}
-
-int inferieur(population p, int e)
-{
-    population m = p;
-    int trouve = 0;
-    while (m != NULL)
-    {
-        if (obtenir_qualite(m->individu) > e)
-        {
-            trouve = 1;
-        }
-        m = m->suivant;
-    }
-    return trouve;
 }
 
 float milieu(float a, float b, float c)
@@ -90,7 +80,7 @@ float milieu(float a, float b, float c)
     {
         return a;
     }
-    else if ((b < a && b > c) || (b < a && b > c))
+    else if ((b < a && b > c) || (b < c && b > a))
     {
         return b;
     }
@@ -145,7 +135,7 @@ population trier_qualite(population p)
     // population temporaire
     population pt = p;
     float pivot;
-    int taille = 0;
+    int taille = 1;
     // On s'occupe des cas triviaux
     if (p == NULL || p->suivant == NULL)
     {
@@ -184,21 +174,24 @@ population trier_qualite(population p)
             pm = pm->suivant;
         }
         // Le pivot est la valeur centrale des trois pour avoir les meilleurs résultats
-        pivot = milieu(obtenir_qualite(p->individu), obtenir_qualite(pm->individu), obtenir_qualite(pf->individu));
-        // printf("pivot : %2.2f\n", pivot);
+        pivot = milieu(obtenir_qualite(pd->individu), obtenir_qualite(pm->individu), obtenir_qualite(pf->individu));
         //  Remplir les listes s1 et s2 en fonction de la valeur du pivot
+        // printf("d: %2.2f, m: %2.2f, f: %2.2f\n", obtenir_qualite(pd->individu), obtenir_qualite(pm->individu), obtenir_qualite(pf->individu));
+        // printf("pivot : %2.2f et taille : %d\n", pivot, taille);
         while (pt != NULL)
+
         {
             if (obtenir_qualite(pt->individu) > pivot)
             {
                 s1 = inser_individu(s1, pt->individu);
             }
-            else if(obtenir_qualite(pt->individu) < pivot)
+            else if (obtenir_qualite(pt->individu) < pivot)
             {
                 s2 = inser_individu(s2, pt->individu);
-            }else{
-                int alea = rand()%2;
-                printf("alea : %d\n", alea);
+            }
+            else
+            {
+                int alea = rand() % 2;
                 if (alea == 0)
                 {
                     s1 = inser_individu(s1, pt->individu);
@@ -220,12 +213,22 @@ population trier_qualite(population p)
         // afficher_population(s2);
         s2 = trier_qualite(s2);
 
-        pt = s1;
-        while (pt->suivant != NULL)
+        if (s1 != NULL)
         {
-            pt = pt->suivant;
+            pt = s1;
+            while (pt->suivant != NULL)
+            {
+                pt = pt->suivant;
+            }
+            pt->suivant = s2;
         }
-        pt->suivant = s2;
+        else
+        {
+            s1 = s2;
+        }
+
+        // printf("stotal :");
+        // afficher_population(s1);
 
         return s1;
     }
@@ -290,7 +293,7 @@ population croiser_population(population p1, float pcroiser)
     population pc = NULL;
     // Population croiser renvoyé par la fonction
     population p2 = NULL;
-    int longueur=obtenir_longPop(p1);
+    int longueur = obtenir_longPop(p1);
     // Prendre aléatoirement deux individus dans la population
     int temp1 = rand() % longueur;
     int temp2 = rand() % longueur;

@@ -16,7 +16,6 @@ population inser_individu(population p, individu i);
 population initialiser_population(population p, int longPop, int longIndiv);
 void afficher_population(population p);
 int obtenir_longPop(population p);
-int inferieur(population p, int e);
 float milieu(float a, float b, float c);
 population trier_qualite(population p);
 population selectionner(population p, int tselect);
