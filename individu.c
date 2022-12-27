@@ -80,12 +80,15 @@ int obtenir_valeur(individu l)
 
 float obtenir_qualite(individu l)
 {
-    int A = -1;
-    int B = 1;
+    float A = 0.1;
+    int B = 5;
+    // int A = -1;
+    // int B = 1;
     float X, qualite;
     int x = obtenir_valeur(l);
     X = (x / pow(2, obtenir_longIndiv(l))) * (B - A) + A;
-    qualite = -pow(X, 2);
+    // qualite = -pow(X, 2);
+    qualite = -log(X);
     return qualite;
 }
 

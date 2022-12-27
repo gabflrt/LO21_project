@@ -41,7 +41,7 @@ void afficher_population(population p)
 {
     if (p == NULL)
     {
-        printf("La population est NULLE\n");
+        printf("Il n'y a pas d'individu dans la population\n");
     }
     else
     {

@@ -9,9 +9,9 @@
 int main()
 {
     // Paramètres du programme
-    int longPop = 8;
-    int longIndiv = 8;
-    int tselect = 4;
+    int longPop = 25;
+    int longIndiv = 16;
+    int tselect = 15;
     int nGen = 20;
     float pcroiser = 0.5;
     int n = (unsigned)time(NULL);

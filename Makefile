@@ -10,6 +10,3 @@ $(TARGET): main.c individu.o population.o
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c -lm -o $@ $< 
-
-clean:
-	rm -f $(TARGET) *.o
