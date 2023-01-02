@@ -48,6 +48,7 @@ void afficher_population(population p)
         printf("Voici la population : \n");
         while (p != NULL)
         {
+            // On affiche chaque individu ainsi que sa qualité
             afficher_individu(p->individu);
             printf("qualite : %2.2f\n", obtenir_qualite(p->individu));
             p = p->suivant;
@@ -176,8 +177,6 @@ population trier_qualite(population p)
         // Le pivot est la valeur centrale des trois pour avoir les meilleurs résultats
         pivot = milieu(obtenir_qualite(pd->individu), obtenir_qualite(pm->individu), obtenir_qualite(pf->individu));
         //  Remplir les listes s1 et s2 en fonction de la valeur du pivot
-        // printf("d: %2.2f, m: %2.2f, f: %2.2f\n", obtenir_qualite(pd->individu), obtenir_qualite(pm->individu), obtenir_qualite(pf->individu));
-        // printf("pivot : %2.2f et taille : %d\n", pivot, taille);
         while (pt != NULL)
 
         {
@@ -205,12 +204,7 @@ population trier_qualite(population p)
         }
 
         // récursivité
-        // printf("s1 :");
-        // afficher_population(s1);
         s1 = trier_qualite(s1);
-
-        // printf("s2 :");
-        // afficher_population(s2);
         s2 = trier_qualite(s2);
 
         if (s1 != NULL)
@@ -227,21 +221,21 @@ population trier_qualite(population p)
             s1 = s2;
         }
 
-        // printf("stotal :");
-        // afficher_population(s1);
-
         return s1;
     }
 }
 
 population selectionner(population p, int tselect)
 {
+    // Création des population temporaires
     population pt = p;
     population pt2 = p;
+    // On passe les valeurs à garder
     for (int i = 0; i < tselect; i++)
     {
         pt = pt->suivant;
     }
+    // On remplace les autres
     while (pt != NULL)
     {
         pt->individu = pt2->individu;
@@ -311,8 +305,10 @@ population croiser_population(population p1, float pcroiser)
         {
             pt2 = pt2->suivant;
         }
+        // On croise les individus entre eux en fonction de pcroiser
         pc = croiser_individus(pt1->individu, pt2->individu, pcroiser);
 
+        // On insère les individus croisés dans la nouvelle liste
         p2 = inser_individu(p2, pc->individu);
         pc = pc->suivant;
         p2 = inser_individu(p2, pc->individu);

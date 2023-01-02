@@ -14,6 +14,7 @@ void afficher_individu(individu l)
     else
     {
         printf("Bits de l'individu : |");
+        // Affiche 1 par 1 chaque bit de l'individu
         while (l != NULL)
         {
             printf(" %c |", l->bit);
@@ -31,6 +32,7 @@ int obtenir_longIndiv(individu l)
     }
     else
     {
+        // Calculer la longueur de l'individu
         int longueur = 0;
         while (l != NULL)
         {
@@ -80,27 +82,27 @@ int obtenir_valeur(individu l)
 
 float obtenir_qualite(individu l)
 {
-    float A = 0.1;
-    int B = 5;
-    // int A = -1;
-    // int B = 1;
+    // Valeur pour les manipulations du 5.
+    // float A = 0.1;
+    // int B = 5;
+    int A = -1;
+    int B = 1;
     float X, qualite;
     int x = obtenir_valeur(l);
+    // Formules pour les manipulations du 5.
+    // qualite = -log(X);
     X = (x / pow(2, obtenir_longIndiv(l))) * (B - A) + A;
-    // qualite = -pow(X, 2);
-    qualite = -log(X);
+    qualite = -pow(X, 2);
     return qualite;
 }
 
 individu initialiser_individu(individu i, int longueur)
 {
-    // n = (7 ^ 5 * n) % (2 ^ 31 - 1);
-    // srand(n);
     int temp = 0;
     for (int j = 0; j < longueur; j++)
     {
+        // Prendre aléatoirement nombre entre 48 et 49 qui correspondent aux caractères 0 et 1
         temp = rand() % 2 + 48;
-        // printf("La valeur est : %d\n",temp);
         i = inser_bit(i, temp);
     }
     return i;
